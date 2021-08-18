@@ -1,0 +1,19 @@
+#board {
+    display: grid;
+    margin: auto;
+    margin-top: 80px;
+    width: 500px;
+    height: 500px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.square {
+    border: 1px solid;
+    border-color: black;
+    background-color: rgb(156, 253, 205);
+    font-size: 100px;
+    vertical-align: middle;
+    padding-top: 20px;
+    text-align: center;
+}
