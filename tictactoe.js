@@ -75,19 +75,20 @@ const gameBoard = (() => {
 
         setTimeout(function () {
             if (checkWin(grid)) {
-                gameBoard.board.removeEventListener("click", gameBoard.boardListen);
-                winner.textContent = `${checkWin(grid)} won!`;
-                winnerDisplay.classList.remove("hide");
-
+                gameBoard.board.removeEventListener("click", gameBoard.boardListen)
+                
                 if (checkWin(grid) == 'X') {
+                    winner.textContent = `${game.players[0].name} won!`;
                     game.players[0].playerScore += 1;
                     scoreDisplay(1, `Score: ${game.players[0].playerScore}`);
                     player = 1;
                 } else {
+                    winner.textContent = `${game.players[1].name} won!`;
                     game.players[1].playerScore += 1;
                     scoreDisplay(2, `Score: ${game.players[1].playerScore}`);
                     player = 2;
                 }
+                winnerDisplay.classList.remove("hide");
                 clearGrid();
                 render();
             }
