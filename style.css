@@ -1,7 +1,7 @@
 #board {
     display: grid;
     margin: auto;
-    margin-top: 80px;
+    margin-top: 20px;
     width: 500px;
     height: 500px;
     grid-template-columns: repeat(3, 1fr);
@@ -16,4 +16,13 @@
     vertical-align: middle;
     padding-top: 20px;
     text-align: center;
+}
+
+button {
+    margin-top: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    font-size: 20px;
 }
