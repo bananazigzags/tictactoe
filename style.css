@@ -26,3 +26,29 @@ button {
     padding: 20px;
     font-size: 20px;
 }
+
+.hide {
+    display: none;
+}
+
+#name-input {
+    margin-left: 35%;
+    margin-top: 10%;
+    position: absolute;
+    height: 100px;
+    width: 350px;
+    background-color: rgb(193, 155, 207);
+    color: white;
+    font-size: 20px;
+    border: 1px solid;
+    border-radius: 20px;
+    text-align: center;
+}
+
+input {
+    
+}
+
+#players {
+    margin-top: 20px;
+}

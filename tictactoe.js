@@ -52,6 +52,13 @@ const gameBoard = (() => {
         setTimeout(function () {
             if (checkWin(grid)) {
                 alert(`${checkWin(grid)} won!`);
+                if (checkWin(grid) == 'X') {
+                    game.players[0].playerScore += 1;
+                    player = 1;
+                } else {
+                    game.players[1].playerScore += 1;
+                    player = 2;
+                }
                 clearGrid();
                 render();
             }
@@ -73,25 +80,41 @@ const gameBoard = (() => {
 })();
 
 const game = (() => {
+    gameBoard.render();
+
     const players = [];
-    
+
+    return { players };
+})();
+
+const nameInput = (() => {
+    const playerInput = document.getElementById("name-input");
+
+    const player1 = document.getElementById("player1");
+    const player2 = document.getElementById("player2");
+
+    const addPlayer = (player) => {
+        game.players.push(player);
+    }
+
+    const buttonSubmit = document.getElementById("submit");
+    buttonSubmit.addEventListener('click', () => {
+        if (player1.value !== "" && player2.value !== "") {
+            addPlayer(playerFactory(player1.value));
+            addPlayer(playerFactory(player2.value));
+        }
+       
+        playerInput.classList.add("hide");
+    });
+
 
 })();
 
-gameBoard.render();
-
-const playerFactory = (name, num) => {
+const playerFactory = (name) => {
     let playerScore = 0;
     return { name, playerScore };
 }
 
-/* combos for winning 
-
-123, 456, 789 - rows - 012, 345, 678
-147, 258, 369 - cols - 036, 147, 258
-159, 357 - diagonals - 048, 246                    
-
-*/
 
 const checkWin = (board) => {
     const arrCheck = board.map(element => {
@@ -101,6 +124,14 @@ const checkWin = (board) => {
             return -1;
         } else return 0;
     });
+
+    /* combos for winning
+
+123, 456, 789 - rows - 012, 345, 678
+147, 258, 369 - cols - 036, 147, 258
+159, 357 - diagonals - 048, 246
+
+*/
 
     if ((arrCheck[0] + arrCheck[1] + arrCheck[2] == 3) ||
         (arrCheck[3] + arrCheck[4] + arrCheck[5] == 3) ||
