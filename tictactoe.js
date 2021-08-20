@@ -5,6 +5,12 @@ const gameBoard = (() => {
     let player = 1;
     
     const board = document.querySelector("#board");
+    const button = document.querySelector("button");
+    button.onclick = function() {
+        clearBoard();
+        clearGrid();
+        render();
+    }
 
     const clearBoard = () => {
         board.textContent = "";
