@@ -5,10 +5,23 @@ const gameBoard = (() => {
     let player = 1;
     
     const board = document.querySelector("#board");
-    const button = document.querySelector("button");
-    button.onclick = function() {
+    const restart = document.querySelector("#restart");
+    const restartGame = document.querySelector("#restart-game");
+
+    
+    restart.onclick = function() {
         clearBoard();
         clearGrid();
+        render();
+    }
+
+    restartGame.onclick = function () {
+        clearBoard();
+        clearGrid();
+        scoreDisplay(1, "Score: 0");
+        scoreDisplay(2, "Score: 0");
+        game.players[0].playerScore = 0;
+        game.players[1].playerScore = 0;
         render();
     }
 
@@ -41,9 +54,11 @@ const gameBoard = (() => {
                     if (player == 1) {
                         element.textContent = "X";
                         grid[element.id] = "X";
+                        player = 2;
                     } else {
                         element.textContent = "O";
                         grid[element.id] = "O";
+                        player = 1;
                     }
                 }
                 
@@ -54,9 +69,11 @@ const gameBoard = (() => {
                 alert(`${checkWin(grid)} won!`);
                 if (checkWin(grid) == 'X') {
                     game.players[0].playerScore += 1;
+                    scoreDisplay(1, `Score: ${game.players[0].playerScore}`);
                     player = 1;
                 } else {
                     game.players[1].playerScore += 1;
+                    scoreDisplay(2, `Score: ${game.players[1].playerScore}`);
                     player = 2;
                 }
                 clearGrid();
@@ -70,10 +87,6 @@ const gameBoard = (() => {
             }
         }, (100));
         
-            
-        if (player == 1) {
-            player = 2;
-        } else player = 1;
         }
     };
     return { grid, render }
@@ -86,6 +99,11 @@ const game = (() => {
 
     return { players };
 })();
+
+const scoreDisplay = (num, content) => {
+    const score = document.getElementById(`score${num}`);
+    score.textContent = content;
+} 
 
 const nameInput = (() => {
     const playerInput = document.getElementById("name-input");
@@ -103,11 +121,15 @@ const nameInput = (() => {
             addPlayer(playerFactory(player1.value));
             addPlayer(playerFactory(player2.value));
         }
-       
+        const player1display = document.getElementById("player1-display");
+        const player2display = document.getElementById("player2-display");
+        player1display.textContent = `Player 1: ${player1.value}`;
+        player2display.textContent = `Player 2: ${player2.value}`;
+        scoreDisplay(1, "Score: 0");
+        scoreDisplay(2, "Score: 0");
+
         playerInput.classList.add("hide");
     });
-
-
 })();
 
 const playerFactory = (name) => {
