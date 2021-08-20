@@ -7,7 +7,13 @@ const gameBoard = (() => {
     const board = document.querySelector("#board");
     const restart = document.querySelector("#restart");
     const restartGame = document.querySelector("#restart-game");
-
+    const winnerDisplay = document.getElementById("winner-display");
+    const winner = document.getElementById("winner");
+    const nextRound = document.getElementById("next-round");
+    nextRound.onclick = function () {
+        winnerDisplay.classList.add("hide");
+        gameBoard.board.addEventListener("click", gameBoard.boardListen);
+    }
     
     restart.onclick = function() {
         clearBoard();
@@ -45,28 +51,34 @@ const gameBoard = (() => {
             square.id = index;
             index++;
             board.appendChild(square);
-        });
+        });        
+    };
 
-        board.onclick = function (event) {
-            let element = event.target;
-            if (element.className == "square") {
-                if (element.textContent == "") {
-                    if (player == 1) {
-                        element.textContent = "X";
-                        grid[element.id] = "X";
-                        player = 2;
-                    } else {
-                        element.textContent = "O";
-                        grid[element.id] = "O";
-                        player = 1;
-                    }
+    const boardListen = (event) => {
+        
+        let element = event.target;
+
+        if (element.className == "square") {
+            if (element.textContent == "") {
+                if (player == 1) {
+                    element.textContent = "X";
+                    grid[element.id] = "X";
+                    player = 2;
+                } else {
+                    element.textContent = "O";
+                    grid[element.id] = "O";
+                    player = 1;
                 }
-                
             }
+
+        }
 
         setTimeout(function () {
             if (checkWin(grid)) {
-                alert(`${checkWin(grid)} won!`);
+                gameBoard.board.removeEventListener("click", gameBoard.boardListen);
+                winner.textContent = `${checkWin(grid)} won!`;
+                winnerDisplay.classList.remove("hide");
+
                 if (checkWin(grid) == 'X') {
                     game.players[0].playerScore += 1;
                     scoreDisplay(1, `Score: ${game.players[0].playerScore}`);
@@ -81,15 +93,17 @@ const gameBoard = (() => {
             }
 
             if (checkTie(grid)) {
-                alert("It's a tie!");
+                gameBoard.board.removeEventListener("click", gameBoard.boardListen);
+                winner.textContent = "It's a tie!";
+                winnerDisplay.classList.remove("hide");
+
                 clearGrid();
                 render();
             }
         }, (100));
-        
-        }
-    };
-    return { grid, render }
+    }
+
+    return { grid, render, board, boardListen }
 })();
 
 const game = (() => {
@@ -117,19 +131,21 @@ const nameInput = (() => {
 
     const buttonSubmit = document.getElementById("submit");
     buttonSubmit.addEventListener('click', () => {
-        if (player1.value !== "" && player2.value !== "") {
+        if ((player1.value !== "") && (player2.value !== "")) {
             addPlayer(playerFactory(player1.value));
             addPlayer(playerFactory(player2.value));
-        }
-        const player1display = document.getElementById("player1-display");
-        const player2display = document.getElementById("player2-display");
-        player1display.textContent = `Player 1: ${player1.value}`;
-        player2display.textContent = `Player 2: ${player2.value}`;
-        scoreDisplay(1, "Score: 0");
-        scoreDisplay(2, "Score: 0");
+            const player1display = document.getElementById("player1-display");
+            const player2display = document.getElementById("player2-display");
+            player1display.textContent = `Player 1: ${player1.value}`;
+            player2display.textContent = `Player 2: ${player2.value}`;
+            scoreDisplay(1, "Score: 0");
+            scoreDisplay(2, "Score: 0");
 
-        playerInput.classList.add("hide");
+            playerInput.classList.add("hide");
+            gameBoard.board.addEventListener("click", gameBoard.boardListen);
+        }
     });
+
 })();
 
 const playerFactory = (name) => {

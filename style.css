@@ -27,7 +27,7 @@ button {
     display: none;
 }
 
-#name-input {
+#name-input, #winner-display {
     margin-left: 35%;
     margin-top: 10%;
     position: absolute;
@@ -39,6 +39,14 @@ button {
     border: 1px solid;
     border-radius: 20px;
     text-align: center;
+}
+
+#winner-display {
+    font-size: 30px;
+}
+
+#winner {
+    margin-top: 10px;
 }
 
 #players {
