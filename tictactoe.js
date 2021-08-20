@@ -1,13 +1,23 @@
 const gameBoard = (() => {
-    const grid = ["", "", "", 
-                  "", "", "", 
-                  "", "", ""];
+    let grid = ["", "", "", 
+                "", "", "", 
+                "", "", ""];
     let player = 1;
     
     const board = document.querySelector("#board");
 
-    const render = () => {
+    const clearBoard = () => {
         board.textContent = "";
+    }
+
+    const clearGrid = () => {
+        grid.forEach(function(element, index) {
+            grid[index] = "";
+        });
+    }
+
+    const render = () => {
+        clearBoard();
         let index = 0;
         grid.forEach(element => {
             const square = document.createElement('div');
@@ -33,10 +43,14 @@ const gameBoard = (() => {
         setTimeout(function () {
             if (checkWin(grid)) {
                 alert(`${checkWin(grid)} won!`);
+                clearGrid();
+                render();
             }
 
             if (checkTie(grid)) {
                 alert("It's a tie!");
+                clearGrid();
+                render();
             }
         }, (100));
         
@@ -50,6 +64,8 @@ const gameBoard = (() => {
 })();
 
 const game = (() => {
+    const players = [];
+    
 
 })();
 
@@ -57,10 +73,7 @@ gameBoard.render();
 
 const playerFactory = (name, num) => {
     let playerScore = 0;
-
-    const returnScore = () => playerScore;
-
-    return { name, playerScore, returnScore };
+    return { name, playerScore };
 }
 
 /* combos for winning 
