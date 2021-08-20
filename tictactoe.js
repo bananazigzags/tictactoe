@@ -31,13 +31,16 @@ const gameBoard = (() => {
         board.onclick = function (event) {
             let element = event.target;
             if (element.className == "square") {
-                if (player == 1) {
-                    element.textContent = "X";
-                    grid[element.id] = "X";
-                } else {
-                    element.textContent = "O";
-                    grid[element.id] = "O";
+                if (element.textContent == "") {
+                    if (player == 1) {
+                        element.textContent = "X";
+                        grid[element.id] = "X";
+                    } else {
+                        element.textContent = "O";
+                        grid[element.id] = "O";
+                    }
                 }
+                
             }
 
         setTimeout(function () {
